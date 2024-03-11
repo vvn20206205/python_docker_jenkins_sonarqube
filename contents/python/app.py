@@ -1,5 +1,6 @@
 # pip install Flask
 from flask import Flask
+from modules.add import add_numbers
 
 app = Flask(__name__)
 
@@ -7,6 +8,11 @@ app = Flask(__name__)
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
+
+
+@app.route('/add/<int:a>/<int:b>')
+def add(a, b):
+    return str(add_numbers(a, b))
 
 
 if __name__ == '__main__':
