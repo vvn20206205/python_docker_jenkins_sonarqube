@@ -23,14 +23,10 @@ pipeline {
             // sh 'python3 -m pytest'
             }
         }
-         stage('SonarQube Analysis') {
-            steps {
-                // Thực hiện kiểm tra chất lượng mã sử dụng SonarQube
-                script {
-                    withSonarQubeEnv('SonarQubeServer') {
-                        sh 'mvn sonar:sonar' // hoặc sử dụng lệnh tương tự cho ngôn ngữ khác
-                    }
-                }
+        stage('SonarQube Analysis') {
+            def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+            withCredentials([string(credentialsId: 'sonar', variable: 'sonarLogin')]) {
+                sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=gs-gradle -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=GS -Dsonar.sources=complete/src/main/ -Dsonar.tests=complete/src/test/ -Dsonar.language=java -Dsonar.java.binaries=."
             }
         }
     }
