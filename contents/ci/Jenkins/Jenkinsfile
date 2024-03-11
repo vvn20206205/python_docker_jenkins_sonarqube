@@ -23,5 +23,15 @@ pipeline {
             // sh 'python3 -m pytest'
             }
         }
+         stage('SonarQube Analysis') {
+            steps {
+                // Thực hiện kiểm tra chất lượng mã sử dụng SonarQube
+                script {
+                    withSonarQubeEnv('SonarQubeServer') {
+                        sh 'mvn sonar:sonar' // hoặc sử dụng lệnh tương tự cho ngôn ngữ khác
+                    }
+                }
+            }
+        }
     }
 }
