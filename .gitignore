@@ -1,2 +1,3 @@
 python0
 __pycache__
+.pytest_cache
