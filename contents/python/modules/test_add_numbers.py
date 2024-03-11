@@ -1,7 +1,7 @@
 
 # pip install pytest
 # import pytest
-from add import add_numbers
+from  add_numbers import add_numbers
 
 
 def test_add_positive_numbers():
