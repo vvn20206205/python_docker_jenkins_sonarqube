@@ -1,1 +1,5 @@
+# pip install Flask
 Flask
+
+# pip install pytest
+pytest
