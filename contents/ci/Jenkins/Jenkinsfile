@@ -10,11 +10,21 @@ pipeline {
         stage('Build') {
             steps {
                 git branch: 'main', url: 'https://github.com/vvn20206205/python_docker_jenkins_sonarqube'
+
+                sh 'apt-get update'
+
+                sh 'apt-get install -y python3'
+
                 sh 'python3 ops.py'
             }
         }
         stage('Test') {
             steps {
+                sh 'apt-get update'
+                sh 'apt-get install -y python3'
+
+                sh 'python3 -m pip install -r requirements.txt' 
+
                 sh 'python3 -m pytest'
             }
         }
