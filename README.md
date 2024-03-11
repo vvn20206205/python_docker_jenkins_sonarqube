@@ -1,1 +1,0 @@
-# python_docker_jenkins_sonarqube
