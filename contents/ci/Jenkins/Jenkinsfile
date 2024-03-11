@@ -7,6 +7,7 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/vvn20206205/python_docker_jenkins_sonarqube']])
             }
         }
+
         stage('Build') {
             steps {
                 // git branch: 'main', url: 'https://github.com/vvn20206205/python_docker_jenkins_sonarqube'
@@ -14,6 +15,7 @@ pipeline {
             // sh 'python3 ops.py'
             }
         }
+
         stage('Test') {
             steps {
                 // sh 'apt-get update'
@@ -23,11 +25,19 @@ pipeline {
             // sh 'python3 -m pytest'
             }
         }
-        // stage('SonarQube Analysis') {
-        //     def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
-        //     withCredentials([string(credentialsId: 'sonar', variable: 'sonarLogin')]) {
-        //         sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=gs-gradle -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=GS -Dsonar.sources=complete/src/main/ -Dsonar.tests=complete/src/test/ -Dsonar.language=java -Dsonar.java.binaries=."
-        //     }
-        // }
+
+        stage('sonar-scanner') {
+            def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+            withCredentials([string(credentialsId: 'SonarQube', variable: 'sonarLogin')]) {
+                sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=gs-gradle -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=GS -Dsonar.sources=complete/src/main/ -Dsonar.tests=complete/src/test/ -Dsonar.language=java -Dsonar.java.binaries=."
+            }
+        }
+
+    // stage('SonarQube Analysis') {
+    //     def sonarqubeScannerHome = tool name: 'sonar', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+    //     withCredentials([string(credentialsId: 'sonar', variable: 'sonarLogin')]) {
+    //         sh "${sonarqubeScannerHome}/bin/sonar-scanner -e -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=${sonarLogin} -Dsonar.projectName=gs-gradle -Dsonar.projectVersion=${env.BUILD_NUMBER} -Dsonar.projectKey=GS -Dsonar.sources=complete/src/main/ -Dsonar.tests=complete/src/test/ -Dsonar.language=java -Dsonar.java.binaries=."
+    //     }
+    // }
     }
 }
