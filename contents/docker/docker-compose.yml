@@ -1,5 +1,8 @@
 version: "3"
 
+volumes:
+  jenkins_home:
+
 services:
   python:
     build: "../python"
@@ -7,66 +10,43 @@ services:
     ports:
       - 5000:5000
 
-
-
   jenkins:
     image: jenkins/jenkins:lts
     restart: always
     ports:
       - "8080:8080"
-      # - "50000:50000"
-    # volumes:
-    #   - jenkins_home:/var/jenkins_home
-     
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      # - /var/run/docker.sock:/var/run/docker.sock
 
-  # services:
-  #   jenkins:
-  #     image: jenkins/jenkins:lts
-  #     ports:
-  #       - "8080:8080"
-  #     volumes:
-  #       - jenkins_home:/var/jenkins_home
+# - "50000:50000"
+# volumes:
+#   - jenkins_home:/var/jenkins_home
 
-  #   sonarqube:
-  #     image: sonarqube:latest
-  #     ports:
-  #       - "9000:9000"
-  #     environment:
-  #       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
-  #     volumes:
-  #       - sonarqube_data:/opt/sonarqube/data
-  #       - sonarqube_extensions:/opt/sonarqube/extensions
+#   sonarqube:
+#     image: sonarqube:latest
+#     ports:
+#       - "9000:9000"
+#     environment:
+#       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+#     volumes:
+#       - sonarqube_data:/opt/sonarqube/data
+#       - sonarqube_extensions:/opt/sonarqube/extensions
 
-  # volumes:
-  #   jenkins_home:
-  #   sonarqube_data:
-  #   sonarqube_extensions:
+# volumes:
+#   sonarqube_data:
+#   sonarqube_extensions:
 
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
-
-
+# adminer:
+#   image: adminer
+#   restart: always
+#   ports:
+#     - 8080:8080
 
 # version: "3"
 
 # volumes:
-#   jenkins_home:
 #   ddh-postgres:
-
-# services:
-#   jenkins:
-#     image: jenkins/jenkins:lts
-#     restart: always
-#     ports:
-#       - "8080:8080"
-#       # - "50000:50000"
-#     volumes:
-#       - jenkins_home:/var/jenkins_home
-#       # - /var/jenkins_home:/var/jenkins_home
-#       # - /var/run/docker.sock:/var/run/docker.sock
 
 #   # postgres:
 #   #   image: postgres:alpine
